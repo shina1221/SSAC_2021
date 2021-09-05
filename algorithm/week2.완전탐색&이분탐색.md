@@ -32,11 +32,11 @@
 ## Python 완전탐색 반복문 직접 구현 예시
 -> #완전탐색  
 
-   def solution(trump):  
-       for i in range(len(trump)):  
-           if trump[i] == 8:  
-               return i  
-       return -1  
+    def solution(trump):  
+        for i in range(len(trump)):  
+            if trump[i] == 8:  
+                return i  
+        return -1  
        
 ## Python 완전탐색 재귀함수 직접 구현 예시  
 -> #재귀함수  
