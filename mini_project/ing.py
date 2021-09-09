@@ -96,3 +96,92 @@ for i in range(len(test3.index)):
 #test3.iloc[0]
 #test3.index[0]
 job_dict
+
+
+===============================
+
+#202103 202107 나정
+
+#데이터 프레임만들기
+#pd.DataFrame({'A':[리스트], 'B':[리스트]})
+
+
+import pandas as pd
+test_1=pd.read_csv('G:\\SSAC\\SSAC_2021_playdata\\mini_project\\data\\국민연금 가입 사업장 내역 2021년 7월.csv',encoding='CP949')
+
+job_dict_total = {'1차 산업':0, '제조업':0, '자원':0, '건설업':0, '도매 및 소매업':0, '숙박 및 음식점':0, '운수 및 창고업, 임대':0, '서비스업':0, '부동산업':0, '정보통신업':0, '달리 분류되지 않은 개인 서비스업':0}
+job_df=pd.DataFrame([job_dict_total])
+job_df
+
+#업종 분류별 빈 딕셔너리 생성
+
+
+data_1=test_1.iloc[:,[13]]
+data_1
+
+
+test1=test_1.iloc[:,[13]].groupby(data_1[' 사업장업종코드'])
+test1.count().head()
+len(test1)
+test1.count()
+
+
+#각 업종코드별 분류를 통해 사업장 수 파악하기
+
+#업종 분류별 빈 딕셔너리 생성
+job_dict202107= {'1차 산업':0, '제조업':0, '자원':0, '건설업':0, '도매 및 소매업':0, '숙박 및 음식점':0, '운수 및 창고업, 임대':0, '서비스업':0, '부동산업':0, '정보통신업':0, '달리 분류되지 않은 개인 서비스업':0}
+job_dict202107
+
+test1.count()
+
+test1.count().index[0]
+
+test1.count().iloc[1].iloc[0]
+
+
+#인덱스(업종) 별 사업장 개수
+for i in range(len(test1.count().index)):
+    #업종코드가 없는것이 있으므로 try처리
+    try:
+        print(i,test1.count().index[i],test1.count().iloc[i].iloc[0])
+        if int(test1.count().index[i]) in range(11000,151104):
+            job_dict202107['1차 산업']+=test1.count().iloc[i].iloc[0]            
+        if int(test1.count().index[i]) in range(151104,369909):
+            job_dict202107['제조업']+=test1.count().iloc[i].iloc[0]              
+        if int(test1.count().index[i]) in range(371000,410001):
+            job_dict202107['자원']+=test1.count().iloc[i].iloc[0]           
+        if int(test1.count().index[i]) in range(451101,453001):
+            job_dict202107['건설업']+=test1.count().iloc[i].iloc[0]                           
+        if int(test1.count().index[i]) in range(501101,525913):
+            job_dict202107['도매 및 소매업']+=test1.count().iloc[i].iloc[0]                 
+        if int(test1.count().index[i]) in range(551001,552310):
+            job_dict202107['숙박 및 음식점']+=test1.count().iloc[i].iloc[0]             
+        if int(test1.count().index[i]) in range(601000,630903):
+            job_dict202107['운수 및 창고업, 임대']+=test1.count().iloc[i].iloc[0]            
+        if int(test1.count().index[i]) in range(630903,672002):
+            job_dict202107['서비스업']+=test1.count().iloc[i].iloc[0]           
+        if int(test1.count().index[i]) in range(701101,703025):
+            job_dict202107['부동산업']+=test1.count().iloc[i].iloc[0]           
+        if int(test1.count().index[i]) in range(711100,713007):
+            job_dict202107['운수 및 창고업, 임대']+=test1.count().iloc[i].iloc[0]                     
+        if int(test1.count().index[i]) in range(721000,729001):
+            job_dict202107['정보통신업']+=test1.count().iloc[i].iloc[0]              
+        if int(test1.count().index[i]) in range(741101,930922):
+            job_dict202107['서비스업']+=test1.count().iloc[i].iloc[0]            
+        if int(test1.count().index[i]) in range(930925,950003):
+            job_dict202107['달리 분류되지 않은 개인 서비스업']+=test1.count().iloc[i].iloc[0]  
+        if int(test1.count().index[i]) ==999999:
+            continue
+    except:
+        continue
+
+job_dict202107
+
+#통합 딕셔너리 생성
+job_dict_total = {'1차 산업':0, '제조업':0, '자원':0, '건설업':0, '도매 및 소매업':0, '숙박 및 음식점':0, '운수 및 창고업, 임대':0, '서비스업':0, '부동산업':0, '정보통신업':0, '달리 분류되지 않은 개인 서비스업':0}
+job_dict_total=pd.DataFrame([job_dict_total])
+
+job_df=pd.DataFrame([job_dict1907])
+#통합 df에 concat
+job_dict_total=pd.concat([job_dict_total, job_df])
+job_dict_total
