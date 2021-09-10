@@ -185,3 +185,129 @@ job_df=pd.DataFrame([job_dict1907])
 #통합 df에 concat
 job_dict_total=pd.concat([job_dict_total, job_df])
 job_dict_total
+
+
+===================
+
+#https://yobro.tistory.com/207
+#참고해서 재수정
+
+#folium
+from urllib.request import urlopen
+import json
+import folium
+
+#각 시도별 geo정보를 담고 있는 json파일 가져오기
+with urlopen('https://raw.githubusercontent.com/southkorea/southkorea-maps/master/kostat/2018/json/skorea-provinces-2018-geo.json') as response:
+    kor = json.load(response)
+#https://raw.githubusercontent.com/southkorea/southkorea-maps/master/gadm/json/skorea-provinces-geo.json
+#시도별 위도경도 받아오기    
+len(kor)
+
+
+
+
+m=folium.Map(
+    location=[36.97884521132491, 127.86224884213675],
+    zoom_start=6
+    #title='Stamen Terrain'
+)
+
+folium.Choropleth(
+    geo_data=kor,
+    name='choropleth',
+    data=each_local,
+    columns=['name', '2021_07'],
+    line_weight=2, #경계선 구분을 명확히 하기 위해 추가
+    key_on='feature.properties.name',
+    fill_color='YlGn',
+    fill_opacity=0.7,
+    line_opacity=0.2
+).add_to(m)
+
+m
+
+import folium 
+import base64
+
+img_path ='C:/Users/admin/Documents/GitHub/mini-Project/mini_project2'
+pic = base64.b64encode(open(img_path+'/강원도.png','rb').read()).decode()
+image_tag = '<img src="data:image/jpeg;base64,{}">'.format(pic)
+iframe = folium.IFrame(image_tag, width=1500, height=1500)
+popup = folium.Popup(iframe, max_width=2000)
+ 
+    
+mm = folium.Marker(location=[37.861971948097164, 127.75748769573207],
+                 popup=popup)
+mm.add_to(m)
+
+
+mm = folium.Marker(location=[ 37.294687266303285, 127.03367657066224],
+                 popup='경기도')
+mm.add_to(m)
+
+mm = folium.Marker(location=[35.2374008600027, 128.693589539166],
+                 popup='경상남도')
+mm.add_to(m)
+
+mm = folium.Marker(location=[36.57798374279373, 128.5002429630932],
+                 popup='경상북도')
+mm.add_to(m)
+
+mm = folium.Marker(location=[35.1537822701698, 126.800577524332],
+                 popup='광주광역시')
+mm.add_to(m)
+
+mm = folium.Marker(location=[35.8295715327161, 128.633608695897],
+                 popup='대구광역시')
+mm.add_to(m)
+
+mm = folium.Marker(location=[36.35459982630213, 127.3858798025016],
+                 popup='대전광역시')
+mm.add_to(m)
+
+mm = folium.Marker(location=[35.179062965143665, 129.0743054210422],
+                 popup='부산광역시')
+mm.add_to(m)
+
+mm = folium.Marker(location=[37.574883186068426, 126.97229701942572],
+                 popup='서울특별시')
+mm.add_to(m)
+
+mm = folium.Marker(location=[36.4878707147471, 127.30158073162],
+                 popup='세종특별자치시')
+mm.add_to(m)
+
+mm = folium.Marker(location=[35.5711799714271, 129.31533419043],
+                 popup='울산광역시')
+mm.add_to(m)
+
+mm = folium.Marker(location=[37.4486688137974, 126.701815127031],
+                 popup='인천광역시')
+mm.add_to(m)
+
+mm = folium.Marker(location=[34.817478142155196, 126.46950664961481],
+                 popup='전라남도')
+mm.add_to(m)
+
+mm = folium.Marker(location=[35.8242446942156, 127.105073582353],
+                 popup='전라북도')
+mm.add_to(m)
+
+mm = folium.Marker(location=[33.4890767517113, 126.499162205018],
+                 popup='제주특별자치도')
+mm.add_to(m)
+
+mm = folium.Marker(location=[36.66117618384123, 126.67621571327705],
+                 popup='충청남도')
+mm.add_to(m)
+
+mm = folium.Marker(location=[36.675242725309, 127.500799174506],
+                 popup='충청북도')
+mm.add_to(m)
+
+m.save('filename.html')
+
+m
+
+
