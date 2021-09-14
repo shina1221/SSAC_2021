@@ -64,11 +64,38 @@ number = stdin.readline().strip()
 """
 import math
 from sys import stdin
+#속도를 위해 팩토리얼 리스트를 미리 준비해둠
+fact_list=[1, 2, 6, 24, 120]
+while True:
+    #속도향상을 위해 readline 사용
+    num_i = stdin.readline().strip()
+    if num_i == '0':
+        break
+    #-가 입력될 수 있으므로 
+    elif int(num_i) > 0:
+        len_str_i=len(num_i)
+        mul_i=0
+        for ii in num_i:
+            #각 숫자와 자릿수에 해당하는 팩토리얼 곱함
+            mul_i += int(ii) * fact_list[len_str_i-1]
+            len_str_i=len_str_i-1
+        print(mul_i)
+    else:
+        continue   
+
+
+
+
+# 이하는 시행착오
+# 이하는 print로 출력을 안해서 로직상 오류는 없었으나 계속 틀림
+
+import math
+from sys import stdin 
 # 여러번 돌리는데 초기화 하기위해 1 지정
 i=1
-while i != 0:
-    #string으로 입력받음
-    i = sys.stdin.readline().rstrip()    
+while i!='0':
+    #string으로 한줄씩 입력받음
+    i = stdin.readline().strip()    
     if i == '0':
         break
     else:
@@ -77,51 +104,28 @@ while i != 0:
         mul_i=0
         for ii in i:
             #각 string의 값과 string 갯수를 통한 팩토리얼 
-            mul_i += int(ii)*math.factorial(len_str_i)
+            mul_i += int(ii) * math.factorial(len_str_i)
             #팩토리얼 하는데 수가 줄어들어야 하므로
             len_str_i=len_str_i-1
         mul_i
+        
 
-a.split(' ')
-#['719', '', '', '', '', '1', '', '', '', '', '15', '', '', '', '', '110', '', '', '', '', '102', '', '', '', '', '0']
+print('===============')
 
-
-
-
-#공백제거
-str_list=[i for i in a.split(' ') if i !='']
-
-#합치기
-test_a =['719', '', '', '', '', '1', '', '', '', '', '15', '', '', '', '', '110', '', '', '', '', '102', '', '', '', '', '0']
-' '.join(test_a)
-
-
-#팩토리얼을 구하는 방법
 import math
-#math.factorial(n)
-
-
-result_list=[i for i in a.split(' ') if i !='']
-
-for str_i in result_list:
-    if str_i == '':
-        pass
-    else:
-        #각 string의 글자를 인자로 받아옴
-        len_str_i=len(str_i)
-        mul_i=0
-        for i in str_i:
-            #각 string의 값과 string 갯수를 통한 팩토리얼 
-            mul_i += int(i)*math.factorial(len_str_i)
-            #팩토리얼 하는데 수가 줄어들어야 하므로
-            len_str_i=len_str_i-1
-        result_list[result_list.index(str_i)]=mul_i
-
-' '.join(result_list)  
-
 from sys import stdin
-number = stdin.readline().strip()
+fact_list=[1, 2, 6, 24, 120]
+while True:
+    i = stdin.readline().rstrip()
+    if i == '0':
+        break
+    elif int(i) > 0:
+        len_str_i=len(i)
+        mul_i=0
+        for ii in i:
+            mul_i += int(ii) * fact_list[len_str_i-1]
+            len_str_i=len_str_i-1
+        mul_i
+    else:
+        continue
 
-import sys
-n = int(sys.stdin.readline())
-data = [sys.stdin.readline().strip() for i in range(n)]
