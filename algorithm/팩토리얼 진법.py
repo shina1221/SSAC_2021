@@ -64,7 +64,7 @@ number = stdin.readline().strip()
 """
 import math
 from sys import stdin
-#속도를 위해 팩토리얼 리스트를 미리 준비해둠
+#속도 향상을 위해 팩토리얼 리스트를 미리 준비해둠
 fact_list=[1, 2, 6, 24, 120]
 while True:
     #속도향상을 위해 readline 사용
@@ -83,11 +83,9 @@ while True:
     else:
         continue   
 
-
-
-
 # 이하는 시행착오
-# 이하는 print로 출력을 안해서 로직상 오류는 없었으나 계속 틀림
+# 이하는 print로 출력을 안해서 로직상 오류는 없었으나 계속 틀림 
+# 다음부터 출력시 print를 잘 쓰도록 할 것
 
 import math
 from sys import stdin 
