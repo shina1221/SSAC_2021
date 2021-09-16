@@ -20,22 +20,50 @@ B진법 수 N을 10진법으로 바꾸면, 항상 10억보다 작거나 같다.
 Z      Z     Z     Z     Z       36          60466175
 36**4  36**3 36**2 36**1 36**0
 
-35*(36**4) + 35*(36**3) + 35*(36**2) + 35*(36**1) + 35*(36**0) =60466175
+35*(36**4)       +   35*(36**3)       +   35*(36**2)        +    35*(36**1)         +   35*(36**0) =60466175
+N-1 * (N*자릿수) +   N-1 * (N*자릿수) +   N-1 * (N*자릿수)  +    N-1 * (N*자릿수)   +   N-1 * (N*자릿수)
+      len(str(N))    len(str(N))-1        len(str(N))-1-1        len(str(N))-1-1-1      len(str(N))-1-1-1-1    
 
 #2진수 표현 1,0으로만 하고 2는 없음
 #36진수도 마찬가지 35까지만 표현
-
+#0부터 시작하기 때문
 
 #[0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z]
 max_number = [0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','H','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
             # 1번째가 0
 """
 from sys import stdin
+#한줄로 받은 값을 각각 
+#B진법수 N과 B진법을 한줄로 받아 공백기준으로 나눠서 객체할당
+N, B = stdin.readline().strip().split(' ')
+cnt=len(N)
+result=0
+for str_i in N:
+    #속도향상을 위해 readline 사용
+    result+=(int(B)-1) * B ** cnt
+    cnt-=1
+print(result)
+
+#while
+def mul(B, N):
+    global result
+    cnt = len(N)
+    result+=(int(B)-1) * B ** cnt
+    cnt-=1
+    B.pop(-1)
+    mul(B,cnt) 
 
 while True:
-    #속도향상을 위해 readline 사용
-    #한줄로 받은 값을 각각 
     #B진법수 N과 B진법을 한줄로 받아 공백기준으로 나눠서 객체할당
     N, B = stdin.readline().strip().split(' ')
-    break
+    cnt=len(N)
+    result=0
+    #다 돌았으면 
+    if cnt == -1:
+        break
+    else:
         
+        #속도향상을 위해 readline 사용
+        result+=(int(B)-1) * B ** cnt
+        cnt-=1
+    
