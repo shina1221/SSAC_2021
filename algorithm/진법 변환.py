@@ -29,41 +29,89 @@ N-1 * (N*자릿수) +   N-1 * (N*자릿수) +   N-1 * (N*자릿수)  +    N-1 * 
 #0부터 시작하기 때문
 
 #[0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F,G,H,J,K,L,M,N,O,P,Q,R,S,T,U,V,W,X,Y,Z]
-max_number = [0,1,2,3,4,5,6,7,8,9,'A','B','C','D','E','F','G','H','H','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
-            # 1번째가 0
+number_dict = {'0':1,'1':2,'2':3,'3':4,'4':5,'5':6,'6':7,'7':8,'8':9,'9':10,'A':11,'B':12,'C':13,'D':14,'E':15,'F':16,'G':17,'H':18,'H':19,'J':20,'K':21,'L':22,'M':23,'N':24,'O':25,'P':26,'Q':27,'R':28,'S':29,'T':30,'U':31,'V':32,'W':33,'X':34,'Y':35,'Z':36}
+             # 1번째가 0
 """
+
+number_dict = {'0':1,'1':2,'2':3,'3':4,'4':5,'5':6,'6':7,'7':8,'8':9,'9':10,'A':11,'B':12,'C':13,'D':14,'E':15,'F':16,'G':17,'H':18,'H':19,'J':20,'K':21,'L':22,'M':23,'N':24,'O':25,'P':26,'Q':27,'R':28,'S':29,'T':30,'U':31,'V':32,'W':33,'X':34,'Y':35,'Z':36}
+             # 1번째가 0
+
 from sys import stdin
-#한줄로 받은 값을 각각 
-#B진법수 N과 B진법을 한줄로 받아 공백기준으로 나눠서 객체할당
-N, B = stdin.readline().strip().split(' ')
-cnt=len(N)
+
+#재귀함수 사용(로직 성공)
+N, B= 'ZZZZZ', 36
+cnt=0
 result=0
-for str_i in N:
-    #속도향상을 위해 readline 사용
-    result+=(int(B)-1) * B ** cnt
-    cnt-=1
-print(result)
-
-#while
-def mul(B, N):
+def mul(cnt, N, B):
     global result
-    cnt = len(N)
-    result+=(int(B)-1) * B ** cnt
-    cnt-=1
-    B.pop(-1)
-    mul(B,cnt) 
+    #모든 수에 대해 진법 계산이 끝났으면
+    if N == '':
+        return result
+    #맨앞의 수부터 진법계산    
+    else:    
+        #진법의 자릿수 -1 만큼 제곱
+        cnt = len(N)-1
+        result+=(int(number_dict[N[0].upper()])-1) * B ** cnt
+        #cnt-=1
+        #점점 계산할 자릿수를 하나씩 줄임
+        N=N[:-1]
+        print(cnt, result, N, B)
+        mul(cnt, N, B) 
 
+mul(cnt, N, B)
+
+"""
+#이렇게 함수바깥에 못 놓음
+N, B = stdin.readline().strip().split(' ')
+result=0
+def(x,y):
+    pass
+"""
+
+################################################################################
+
+N, B= 'ZZZZZ', '36'
+result=0
+def mul(cnt, N, B):
+    #global 안해주면 바깥에 있는 result =0으로만 남음
+    #마찬가지로 result를 전역변수로 썼기 때문에 파라미터로도 인자로도 쓸 수 없음
+    global result
+    B= int(B)
+    #모든 수에 대해 진법 계산이 끝났으면
+    if N == '':
+        #cnt=-1
+        #N=-2
+#        print('cnt',cnt, 'N:', N, 'B:', B) 
+        print('B:', B) 
+        #작업종료
+        return 0
+    #맨앞의 수부터 진법계산    
+    else:    
+        #진법의 자릿수 -1 만큼 제곱
+        cnt = len(N)-1
+        result+=(int(number_dict[N[0].upper()])-1) * B ** cnt
+        #cnt-=1
+        #점점 계산할 자릿수를 하나씩 줄임
+        N=N[:-1]
+        mul(cnt, N, B) 
+
+#결과확인    
+mul(cnt, N, B)    
+result
+
+#### while문 활용
 while True:
+    #한줄로 받은 값을 각각 
     #B진법수 N과 B진법을 한줄로 받아 공백기준으로 나눠서 객체할당
     N, B = stdin.readline().strip().split(' ')
-    cnt=len(N)
     result=0
-    #다 돌았으면 
-    if cnt == -1:
+    mul(cnt, N, B)
+    print(result)    
+    if result > 1000000000:    
         break
-    else:
-        
-        #속도향상을 위해 readline 사용
-        result+=(int(B)-1) * B ** cnt
-        cnt-=1
+
+#런타임 에러
+
+
+
     
