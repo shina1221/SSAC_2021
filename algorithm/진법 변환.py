@@ -79,9 +79,6 @@ def mul(cnt, N, B):
     B= int(B)
     #모든 수에 대해 진법 계산이 끝났으면
     if N == '':
-        #cnt=-1
-        #N=-2
-#        print('cnt',cnt, 'N:', N, 'B:', B) 
         print('B:', B) 
         #작업종료
         return 0
@@ -90,7 +87,6 @@ def mul(cnt, N, B):
         #진법의 자릿수 -1 만큼 제곱
         cnt = len(N)-1
         result+=(int(number_dict[N[0].upper()])-1) * B ** cnt
-        #cnt-=1
         #점점 계산할 자릿수를 하나씩 줄임
         N=N[:-1]
         mul(cnt, N, B) 
@@ -99,7 +95,7 @@ def mul(cnt, N, B):
 mul(cnt, N, B)    
 result
 
-#### while문 활용
+#### while문 활용  #잘 돌아가는데 런타임 에러
 while True:
     #한줄로 받은 값을 각각 
     #B진법수 N과 B진법을 한줄로 받아 공백기준으로 나눠서 객체할당
@@ -110,8 +106,31 @@ while True:
     if result > 1000000000:    
         break
 
-#런타임 에러
 
+#런타임 에러때문에 재수정
 
+N, B = stdin.readline().split()
+B=int(B)
+result=0
 
+for i in N:
+    #모든 수에 대해 진법 계산이 끝났으면
+    if N == '':
+        print(result)
+    #맨앞의 수부터 진법계산    
+    else:    
+        #진법의 자릿수 -1 만큼 제곱
+        cnt = len(N)-1
+        result+=(int(number_dict[N[0].upper()])-1) * B ** cnt
+        #cnt-=1
+        #점점 계산할 자릿수를 하나씩 줄임
+        N=N[:-1]
+        print(cnt, result, N, B)
+        mul(cnt, N, B) 
+
+mul(cnt, N, B)
+
+#결과확인    
+mul(cnt, N, B)    
+result
     
