@@ -1,0 +1,1 @@
+SELECT * FROM coronadb.corona19;
