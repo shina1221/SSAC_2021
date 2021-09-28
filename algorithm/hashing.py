@@ -90,8 +90,36 @@ r 시작수 : 310
 zzz의 해시 값은 26 × 31의0제곱 + 26 × 31의1제곱 + 26 × 31의2제곱 = 26 + 806 + 24986 = 25818
 """
 
+"""
+풀이 
 
-#이하는 시행착오
+ord(c)는 문자의 유니코드 값을 돌려주는 함수이다.
+ord('a') >>> 97    -96    1
+ord('z') >>> 122   -96    26
+
+마지막 수식에서 시그마 i=0에서 l-1까지 a의i번째 * r의 i제곱 mod M
+
+mod는 %로 나머지를 의미
+M은 1234567891 (문제에 명시)
+r은 31 (문제에 명시)
+l은 문자열의 길이
+"""
+
+l = int(input('문자열의 길이'))
+string_L = input('알파벳 소문자')
+r=31
+M=1234567891
+answer=0
+
+for i in range(l):
+    answer+= (ord(string_L[i])-96)*(r**i)  
+print(answer%M)
+
+#기존에 result를 변수로 했었는데 홈페이지에서 제출시 틀렸다고 함.
+#타인 코드 참조시 answer로 통과함 answer로 변수명을 변경하고나서 통과함.
+#answer말고는 정답의 변수로 인정하지 않는듯
+
+#이하는 시행착오#######################################################################
 
 ####1차 런타임 에러
 #알파벳 딕셔너리 생성
@@ -126,40 +154,11 @@ print(result)
 
 #3차
 l = int(input('문자열의 길이'))
-a = list(input('알파벳 소문자'))
+a = input('알파벳 소문자')
 r=31
 M=1234567891
-
 result=0
+
 for i in range(l):
-    result+= (ord(a[i])-96) * (r ** i)   
-
-
-for idx, char in enumerate(string):
-    sum += (apb.find(char)+1)*(31**idx)
-
+    result+= (ord(a[i])-96) * (r ** i)  
 print(result % M)
-
-"""
-#참고:https://cindycho.tistory.com/entry/modular-%EC%97%B0%EC%82%B0-%ED%8A%B9%EC%A7%95?category=965906
-     :https://developer-mac.tistory.com/84
-
-백준 문제를 풀다보면 값이 커질 경우 모듈러 연산을 하여 작아진 값을 답으로 제출해야 하는 경우가 있다.
-
-1. (a + b) % M = ((a % M) + (b % M)) % M
-2. (a - b) % M = ((a % M) - (b % M)) % M
-3. (a * b) % M = ((a % M) * (b % M)) % M
-
-다음의 연산특징을 이용
-
-ord(c)는 문자의 유니코드 값을 돌려주는 함수이다.
-ord('a') >>> 97    -96    1
-ord('z') >>> 122   -96    26
-
-마지막 수식에서 시그마 i=0에서 l-1까지 a의i번째 * r의 i제곱 mod M
-
-mod는 %로 나머지를 의미
-M은 1234567891
-r은 31
-l은 문자열의 길이
-"""
