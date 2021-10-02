@@ -41,8 +41,8 @@ participant리스트와 달리 completion 리스트에 없는 사람은 미완�
 """
 
 #이런 경우 고려
-#par = 'a','a','d','e','f'
-#com = 'a','a','f','d'
+#par = 'a','a','d','e','f'  //'a','a','d','e','f'  
+#com = 'a','a','f','d'      // a','a','d','f',0
 def solution(participant, completion):    
     answer=''
     #인덱스 기준 값을 비교하기 위해 sorting
@@ -99,5 +99,6 @@ def solution(participant, completion):
         else:
             answer=i
             return answer
+
 
 
