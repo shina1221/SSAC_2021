@@ -32,15 +32,22 @@ phone_book	                        return
 입출력 예 #3
 첫 번째 전화번호, “12”가 두 번째 전화번호 “123”의 접두사입니다. 따라서 답은 false입니다.
 """
+
+"""
+알고리즘 스터디에서 참고로 배운 것
+phone_book.sort(key = lambda x:len(x))
+길이순 정렬
+
+"""
 #성공
 def solution(phone_book):
-    end_point=0
     #sorting한 뒤
     phone_book.sort()
     #디폴트 값은 True로 두고 //겹치는 접미사가 없을 경우 True가 됨
     answer= True
     for i in range(len(phone_book)-1):
         #앞의숫자와 바로 뒤의 숫자의 접두사 비교 
+        #string 길이를 벗어나는 위치까지 탐색을 해도 에러는 안나고 저장된 데이터만 출력됨.
         if phone_book[i] == phone_book[i+1][:len(phone_book[i])]:
             answer=False
             break
