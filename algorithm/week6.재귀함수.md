@@ -60,7 +60,7 @@ def factorial(n):
     if n ==1:
         return 1
     else:
-    return n x factorial(n-1)
+        return n x factorial(n-1)
 
 ex) 5!구하기
 factorial(5) 120
