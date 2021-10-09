@@ -25,15 +25,15 @@ N을 이진수로 바꿔서 출력한다. 이진수는 0으로 시작하면 안 
 from sys import stdin
 
 def div(N):
-    if N//2 == 0:  #1로 두었을 때 만약 N이 1이라면 검출하지 못하는 에러사항이 있었음
+    if N//2 == 0:  #1로 두었을 때 만약 N이 1이라면 검출하지 못하는 에러사항이 있었음, 종료조건
         trans_N.insert(0,str(N%2)) #나머지를 맨 앞에 추가
-        answer = int(''.join(trans_N)) 
+        answer = int(''.join(trans_N))  #공백기준으로 문자열을 합침
         print(answer)    
-        return answer
+        return answer #값 리턴
     else:
         trans_N.insert(0,str(N%2)) #나머지를 맨 앞에 추가
         N=N//2 #N갱신
-        div(N)
+        div(N) #재귀
 
 trans_N = []
 N = int(stdin.readline().strip())
