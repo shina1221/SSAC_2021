@@ -41,26 +41,169 @@ N                              road                             K result
 그 중에서 거리비용이 k이하인 것만 count 
 """
 
-#다익스트라 예시코드
-visited = [False for _ in range(n)]                    #비용 배열, 거리 배열 선언
-cost = [sys.maxsize for _ in range(n)]
-visited[0] = True
-cost[0] = 0                                            #0번 노드를 시작점으로 설정
-length = len(visited)
-while False in visited:                                #방문하지 않은 노드가 있다면
-    checkLoc = -1
-    checkvalue = sys.maxsize                           #방문하지 않은 지역 중 최솟값 찾기
-    for i in range(length):
-        if visited[i]==False and cost[i] < checkvalue:
-            checkLoc = i
-            checkvalue = cost[i]                       #방문하지 않은 지역 중 최솟값 찾기
-    if checkLoc == -1:                                 #검사할 후보가 없다면 탈출         
-        break
-    visited[checkLoc] = True                           #검사할 후보가 없다면 탈출
-    if v1== checkLoc and visited[v2]:                  #경로 완전탐색으로 비용배열 수정  
-        cost[v2] = min(cost[v2], cost[v1]+c)
-    if v2 = checkLoc and visited[v1]== False
-        cost[v1] = min(cost[v1], cost[v2]+c)           #경로 완전탐색으로 비용배열 수정
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#이하는 시행착오###############################################################################33
+
+#우선 현재 노드와 맞닿아 있는 노드들의 비용값들을 탐색
+#위에서 탐색한 비용값들 중에서 탐색하지 않은 배열들이라는 조건하에 가장 비용값이 가장 작은 것을 탐색
+#가장 작다고 여긴 노드를 기준으로 맞닿아 있는 노드들의 비용값들을 탐색 (단 기존에 탐색했던 노드들에 한하여 각 노드들에 맞닿아 있으면서 비용으로 탐색하지 않았던 고 비용값을 이전의 탐색 배열 값에 더해준다)
+#위에서 탐색한 비용값들 중에서 탐색하지 않은 배열들이라는 조건하에 가장 비용값이 가장 작은 것을 탐색
+#이하 반복
+
+
+#1부터 시작
+#비용이 가장 작은 노드를 기준으로 하고
+#for 전체 배열들 중에서 현재 탐색하는 비용이 가장 작은 노드가 0번째에 있는 배열일 때
+#   for 해당 배열들 중에서도 1번째 노드가 이미 탐색한 노드라면 1번째 노드와 이전에 탐색 기준이 된 노드를 가진 배열의 비용과 이번에 탐색한 비용을 더해준 중간 비용과
+#                                         이미 탐색한 노드가 아니라면 새로운 탐색값으로써 받아들인다         
+#         탐색한 비용들로 배열을 재구성하고 그중에서 가장 작은 비용을 가진 노드를 선택한다.
+#여기서 걸리는 문제 만약 두가지 모두 k 거리보다 작은 거리라면 이걸 어떻게 처리할 것인가 (둘 다 정답이 되니깐...) 
+#이하 반복
+
+#앞의 두 노드들이 현재까지 탐색한 노드들이라면(즉, 방문배열 True인 키만 추출)
+
+
+#예시1
+N=5
+road = [[1,2,1],[2,3,3],[5,2,2],[1,4,2],[5,3,1],[5,4,2]]
+K=3
+
+#예시2
+N=6
+road = [[1,2,1],[1,3,2],[2,3,2],[3,4,3],[3,5,2],[3,5,3],[5,6,1]]
+K=4
+
+##########
+
+cost = [[] for i in range(len(road))]
+#1노드부터 시작하므로 담고 시작
+visited=[1]
+#최솟값을 찾기위해 수 초기화
+min_i=999
+#탐색할 수에 대한 리스트 초기화
+
+#for 전체 배열들 중에서 현재 탐색하는 비용이 가장 작은 노드가 0번째에 있는 배열일 때    
+for fisrt_i in road:
+    global min_i
+    if fisrt_i[0]==1 and min_i >= fisrt_i[2]:
+        min_i = fisrt_i[2]
+        min_li = fisrt_i
+print('min_li', min_li)    
+#해당 노드 리스트는 탐색했다고 True 표시
+road[road.index(min_li)]=True
+#탐색한 노드 표시
+visited.append(min_li[1]) 
+#k 미만인 거리까지 확인하기 위한 총 cost, 맨 처음은 1 노드기준 가장 비용이 작은 것
+total_cost = min_li[2]
+
+#총 비용이 K 이하일 동안
+while total_cost <= K:
+    global min_i    
+    #이어서 나머지 노드들 탐색
+    for arr_i in road:          
+        #탐색하지 않은 노드면서 비용이 가장 작은 노드 탐색
+        if arr_i[2] < min_i and arr_i!=True:
+            min_i = arr_i
+    print('min_i', min_i)
+    #탐색한 노드 관리
+    visited.append(min_i[0]) 
+
+        #최소비용을 가지는 탐색할 수 체크
+        now_check = arr_i[0]
+        #이미 탐색했다면 탐색했다고 True 표시
+        road[road.index(arr_i)]=True     
+        #탐색한 노드들 관리
+        visited.append([0])
+        visited.append(min_i[0])
+
+    #for 해당 배열들 중에서도 1번째 노드가 이미 탐색한 노드라면 1번째 노드와 이전에 탐색 기준이 된 노드를 가진 배열의 비용과 이번에 탐색한 비용중 더 작은것을 선택
+    #                                         이미 탐색한 노드가 아니라면 새로운 탐색값으로써 받아들인다         
+    #         탐색한 비용들로 배열을 재구성하고 그중에서 가장 작은 비용을 가진 노드를 선택한다.
+    #여기서 걸리는 문제 만약 두가지 모두 k 거리보다 작은 거리라면 이걸 어떻게 처리할 것인가 (둘 다 정답이 되니깐...) 
+    #이하 반복
+
+    #앞의 두 노드들이 현재까지 탐색한 노드들이라면(즉, 방문배열 True인 키만 추출)
+
+
+    #항상 시작은 1번으로 시작
+    #예시 2를 보도록 하자
+
+
+"""
+전체 노드를 지나는 최단거리 기준 K 미만일때 까지 산출하고 그만 
+따라서 플로이드 마샬 알고리즘 사용
+"""
+
+
+
+
+#플로이드 와샬 예시코드
+values = [2**31-1 for i in range(n)]                #비용배열, 거리배열 선언
+visited = [False for i in range(n)]
+start = 0                                           #0번 노드를 시작점으로 설정
+visited[start]=True
+values[start]=0
+while False in visited:                             #방문하지 않은 노드가 있다면
+    for i in costs:                                 #노드 완전탐색으로 비용배열의 거리 값 최소화
+        if(visited[i[1]]==False and i[0]==start):
+            values[i[1]]=min(values[i[1], i[2]])
+        if visited[i[0]]==False and i[1]**start
+            values[i[0]]==min(values[i[0]], i[2])
+
+    refer = 2**31-1
+    for i in range(n):                               #방문하지 않은 노드 중 최소비용 노드 위치 탐색 
+        if(visited[i]==False and values[i]!=0):      
+            refer = min(refer, values[i])            
+    answer = answer + refer                          #방문하지 않은 노드 중 최소비용 노드 위치 탐색
+    for i in range(n):                               #해당 노드 방문 여부 체크
+        if(visited[i]==False and values[i]==refer):  
+            visited[i]=True                          
+            start=1                                  #해당 노드 방문 여부 체크 
