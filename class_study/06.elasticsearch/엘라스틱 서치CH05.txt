@@ -1,0 +1,451 @@
+#데이터 집계
+
+GET /_cat/indices/apache*?v&pretty
+
+#스냅숏 목록 확인
+curl -XGET 'http://localhost:9200/_snapshot/apache-web-log/_all?pretty'
+#기본 스냅숏 복구
+curl -XPOST 'http://localhost:9200/_snapsho/apache-web-log/default/_restore'
+
+#197p
+GET /apache-web-log/_search?size=0
+{
+  "query": {
+    "match_all": {}
+  },
+  "aggs": {
+    "region_count": {
+      "terms": {
+        "field": "geoip.city_name.keyword",
+        "size": 20
+      }
+    }
+  }
+}
+
+#합산 집계
+#합산 집계는 단일 숫자 메트릭 집계에 해당
+GET /apache-web-log/_search?size=0
+{
+  "aggs": {
+    "total_bytes": {
+      "sum": {
+        "field": "bytes"
+      }
+    }
+  }
+}
+
+#필터기능 적용
+GET /apache-web-log/_search?size=0
+{
+  "query": {
+    "constant_score": {
+      "filter": {
+        "match": {"geoip.city_name": "paris"}
+      }
+    }
+  },
+  "aggs": {
+    "total_bytes": {
+      "sum": {
+        "field": "bytes"
+      }
+    }
+  }
+}
+
+
+#script 를 사용해 합 연산 수행
+GET /apache-web-log/_search?size=0
+{
+  "query": {
+    "constant_score": {
+      "filter": {
+        "match": {"geoip.city_name": "paris"}
+      }
+    }
+  },
+  "aggs": {
+    "total_bytes": {
+      "sum": {
+        "script": {
+          "lang": "painless",
+          "source": "doc.bytes.value / params.divide_value",
+          "params": {
+            "divide_value": 1000
+          }
+        }
+      }
+    }
+  }
+}
+
+#기존에는 결과가 428964였는데 422가 됨. 1000으로 나눴을 때 예상했던 값은 428이었는데 422가 됨. 그 이유는 1000으로 나누는 것은 모든 합산 값에 대한 나누기가 아니라 각 문서의 개별적인 값을 1000으로 나눈 것이기 때문에 1000보다 작은 수들은 전부 0이 되었기 때문
+#위의 문제를 해결하기 위한 방법
+GET /apache-web-log/_search?size=0
+{
+  "query": {
+    "constant_score": {
+      "filter": {
+        "match": {"geoip.city_name": "paris"}
+      }
+    }
+  },
+  "aggs": {
+    "total_bytes": {
+      "sum": {
+        "script": {
+          "lang": "painless",
+          "source": "doc.bytes.value / (double)params.divide_value",
+          "params": {
+            "divide_value": 1000
+          }
+        }
+      }
+    }
+  }
+}
+
+#평균 집계
+GET /apache-web-log/_search?size=0
+{
+  "aggs": {
+    "avg_bytes": {
+      "avg": {
+        "field": "bytes"
+      }
+    }
+  }
+}
+
+#filter 기능을 사용해 특정 지역에서 유입된 데이터의 합 계산
+GET _search?size=0
+{
+  "query": {
+    "constant_score": {
+      "filter": {
+        "match": {"geoip.city_name": "paris"}
+      }
+    }
+  },
+  "aggs": {
+    "avg_bytes": {
+      "avg": {
+        "field": "bytes"
+      }
+    }
+  }
+}
+
+#최솟값 집계
+GET /apache-web-log/_search?size=0
+{
+  "aggs": {
+    "min_bytes": {
+      "min": {
+        "field": "bytes"
+      }
+    }
+  }
+}
+
+#filter를 사용해 특정 지역에서 유입된 데이터 중 가장 작은 값 추출
+
+GET _search?size=0
+{
+  "query": {
+    "constant_score": {
+      "filter": {
+        "match": {"geoip.city_name": "paris"}
+      }
+    }
+  },
+  "aggs": {
+    "min_bytes": {
+      "min": {
+        "field": "bytes"
+      }
+    }
+  }
+}
+
+#최댓값 집계
+#단일 매트릭 집계
+#서버에 유입된 데이터 중 가장 큰 값 구하기
+GET /apache-web-log/_search?size=0
+{
+  "aggs": {
+    "max_bytes": {
+      "max": {
+        "field": "bytes"
+      }
+    }
+  }
+}
+
+#filter를 사용해 특정 지역에서 유입된 데이터 중 가장 큰 값 찾아보기
+GET _search?size=0
+{
+  "query": {
+    "constant_score": {
+      "filter": {
+        "match": {"geoip.city_name": "paris"}
+      }
+    }
+  },
+  "aggs": {
+    "max_bytes": {
+      "max": {
+        "field": "bytes"
+      }
+    }
+  }
+}
+
+#개수집계
+GET /apache-web-log/_search?size=0
+{
+  "aggs": {
+    "bytes_count": {
+      "value_count": {
+        "field": "bytes"
+      }
+    }
+  }
+}
+
+#filter기능을 사용해 특정 지역에서 일어난 사용자요청 횟수 계산
+GET _search?size=0
+{
+  "query": {
+    "constant_score": {
+      "filter": {
+        "match": {"geoip.city_name": "paris"}
+      }
+    }
+  },
+  "aggs": {
+    "bytes_count": {
+      "value_count": {
+        "field": "bytes"
+      }
+    }
+  }
+}
+
+#통계 집계
+GET /apache-web-log/_search?size=0
+{
+  "aggs": {
+    "bytes_stats": {
+      "stats": {
+        "field": "bytes"
+      }
+    }
+  }
+}
+
+#filter를 사용해 특정 지역에 대한 통계 집계
+GET _search?size=0
+{
+  "query": {
+    "constant_score": {
+      "filter": {
+        "match": {"geoip.city_name": "paris"}
+      }
+    }
+  },
+  "aggs": {
+    "bytes_stats": {
+      "stats": {
+        "field": "bytes"
+      }
+    }
+  }
+}
+
+#확장 통계 집계
+GET /apache-web-log/_search?size=0
+{
+  "aggs": {
+    "bytes_extended_stats": {
+      "extended_stats": {
+        "field": "bytes"
+      }
+    }
+  }
+}
+
+#filter 적용
+GET /apache-web-log/_search?size=0
+{
+  "query": {
+    "constant_score": {
+      "filter": {
+        "match": {"geoip.city_name": "paris"}
+      }
+    }
+  },
+  "aggs": {
+    "bytes_extended_stats": {
+      "extended_stats": {
+        "field": "bytes"
+      }
+    }
+  }
+}
+
+#카디널리티 집계
+#단일 숫자 메트릭 집계에 해당. 개수 집합과 유사하게 횟수를 계산하는데 중복된 값은 제외한 고유한 값에 대한 집계를 수행. 하지만 모든 문서에 대해 중복된 값을 집계하는 것은 성능에 큰 영향을 줄 수 있기 대문에 근사치를 통해 집계를 수행
+GET /apache-web-log/_search?size=0
+{
+  "query": {
+    "constant_score": {
+      "filter": {
+        "match": {"geoip.country_name": "United States"}
+      }
+    }
+  },
+  "aggs": {
+    "us_city_naems": {
+      "terms": {
+        "field": "geoip.city_name.keyword"
+      }
+    }
+  }
+}
+
+#집계된 결과를 살펴보면 미국내에서 요청 수가 가장 많은 도시 순으로 결과가 반환됨. 지금까지의 집계로는 동일한 필드값에 대해서도 집계 연산이 수행되기 때문에 미국내 몇개의 도시에서 유입이 있었는지 확인하기 위해선 다음의 카디널러티 집계 사용
+#카디널리티는 근사치를 계산하는 메트릭 집계임/
+#데이터가 적은 경우 거의 정확한 결과를 확인할 수 있지만 기본적으로 근사치 계산임.
+
+GET /apache-web-log/_search?size=0
+{
+  "query": {
+    "constant_score": {
+      "filter": {
+        "match": {"geoip.country_name": "United States"}
+      }
+    }
+  },
+  "aggs": {
+    "us_cardinality": {
+      "cardinality": {
+        "field": "geoip.city_name.keyword"
+      }
+    }
+  }
+}
+
+#백분위 수 집계
+GET /apache-web-log/_search?size=0
+{
+  "aggs": {
+    "bytes_percentiles": {
+      "percentiles": {
+        "field": "bytes"
+      }
+    }
+  }
+}
+
+#
+GET /apache-web-log/_search?size=0
+{
+  "aggs": {
+    "bytes_percentiles": {
+      "percentiles": {
+        "field": "bytes",
+        "percents": [
+          1,
+          5,
+          25,
+          50,
+          75,
+          95,
+          99
+        ]
+      }
+    }
+  }
+}
+
+#백분위 수 랭크 집계
+GET /apache-web-log/_search?size=0
+{
+  "aggs": {
+    "bytes_percentile_ranks": {
+      "percentile_ranks": {
+        "field": "bytes",
+        "values": [5000,10000]
+      }
+    }
+  }
+}
+
+#지형집계
+GET /_mapping
+
+#스냅숏 복사
+#curl -XPOST "http://localhost:9200/_snapshot/apache-web-log/applied-mapping/_restore" -u elastic:bigdata
+
+#인덱스 정보 확인
+GET /_cat/indices/apache*?v&pretty
+
+#매핑 정보 확인
+GET /apache-web-log-applied-mapping/_mapping/field/geoip.location
+
+#??
+GET /apache-web-log-applied-mapping/_search?size=0
+{
+  "aggs": {
+    "viewport": {
+      "geo_bounds": {
+        "field": "geoip.location",
+        "wrap_longitude": true
+      }
+    }
+  }
+}
+
+GET /apache-web-log-applied-mapping/_search?size=0
+{
+  "query": {
+    "constant_score": {
+      "filter": {
+        "match" : {"geoip.continent_code": "EU"}
+      }
+    }
+  },
+  "aggs" : {
+    "viewport": {
+      "geo_bounds": {
+        "field": "geoip.location",
+        "wrap_longitude": true
+      }
+    }
+  }
+}
+
+#지형중심 집계
+GET /apache-web-log-applied-mapping/_search?size=0
+{
+  "aggs": {
+    "centroid": {
+      "geo_centroid": {
+        "field": "geoip.location"
+      }
+    }
+  }
+}
+
+#기타사항
+#타임아웃 에러 해결
+#글로벌로 적용되는 타임아웃의 기본 정책은(-1) 무제한
+PUT _cluster/settings
+{
+  "transient": {
+    "search.default_search_timeout": "100s" #기존에 -1s 일때 계속 타임아웃되서 바꿈
+  }
+}
