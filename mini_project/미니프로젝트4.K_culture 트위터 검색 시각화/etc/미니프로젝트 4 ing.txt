@@ -1,0 +1,112 @@
+
+##동전 및 지폐 개수 세기
+#구글이나 네이버에서 이미지 검색으로 한국화폐 검색
+#이미지 한건당 디스크립터를 이용해 어느지폐가 얼마나 있는지 구분하고 총액을 구함
+
+#해당 동전 이나 지폐가 얼마나 있는지 db에 저장하고 
+   100원 500원 1000원 5000원 10000원 50000원 총액
+    건수                                             ....       원        
+   
+#kibana에서 집계연산
+-각 화폐별 총량, 구간내 총액 개수
+#얼마인지 총 합계를 구간별로 저장
+
+#매장에서 사용할 경우 얼마에서 얼마치 물건이 제일 잘나간다 정도로 해석가능
+
+#데이터를 여러건 받아서 해야하므로 filebeat로 데이터 적재 사용해야함 
+  따라서 es 7사용할 가능성 있음 
+
+##시간대 별 사람이나 객체 등장횟수
+#해당 시설물을 사람들이 언제 가장 많이 이용하는가
+#추가 옵션)객체 추적을 이용한 불법 이용 검출
+
+실시간 서울 한강 라이브캠
+https://www.youtube.com/watch?v=SmCa3GMVNIM
+
+서울 강남 양재천 2번 라이브캠 
+https://www.youtube.com/watch?v=zQHhdrDqys0
+
+#외국 거리 웹캠
+https://www.youtube.com/watch?v=TmtVbezZaqg
+
+#Jackson Hole Wyoming USA Town Square Live Cam
+https://www.youtube.com/watch?v=1EiC9bvVGnk
+
+-가게를 이용하는 사람은 몇명일까
+-현재 거리를 이용하는 사람은 몇명일까
+-현재 거리를 이용하는 차량은 몇대일까
+#시간대별 처리 필요
+-시간이 영상 내 상단에 나와있긴 함(한국시간에 시차적용해서 계산해서 파일에 추가)
+
+#코로나
+-백신, 확진자, 위드코로나 국가, 방역
+
+#금융정책
+#주식, 정치, 부동산 
+
+#인공지능
+-대세 기술, 주로 쓰이는 분야, 매출, 필요한 연관기술
+
+#한류(문화)
+  (음식, 드라마/예능, 영화, K-pop)
+- 연관산업, 흥행하는 나라, 흥행하는 분야, 미진한 분야, 결합기술 etc...
+
+#미세먼지
+#감소요인 #증가요인 #미치는 영향 #환경 
+
+
+#윈도우에 엘라스틱서치, 키바나, filebeat, logstash 설치 7.14.1ver
+#https://www.elastic.co/kr/downloads/past-releases#kibana
+es 7버전 리눅스 내의 jdk는 "1.8.0_161"인데 현재 다운된 djk 1.8.0대 면 괜찮을 듯함
+만약에 해당버전으로도 안되면 11대로 업그레이드 해야할 듯
+#https://blog.naver.com/PostView.naver?blogId=slykid&logNo=222479711898&parentCategoryNo=&categoryNo=65&viewDate=&isShowPopularPosts=true&from=search
+
+###
+create new app에서 이름 짓고
+
+#logstash/config에 test.conf 파일을 만들고 
+input {
+    twitter {
+        consumer
+
+Deleloper Authentication Token Access Token and secret 토큰을 발급받아서 
+넣을 것
+
+노드1번 엘라스틱 서치 키고 3번 노드의 키바나를 켜서 해보면 될것임
+
+#다음의 명령어로 옵션
+notepad test.conf
+
+logstash.bat -f ../config/logstash-twitter.conf
+
+./logstash -f logstash-twitter.config
+
+logstash.bat -f ../config/logstash-twitter.conf
+
+GET HTTP/1.1 스펙인 RFC2616의 Section9.3에 따르면 GET은 서버로부터 정보를 조회하기 위해 설계된 메소드입니다.
+POST는 리소스를 생성/변경하기 위해 설계되었기 때문에 GET과 달리 전송해야될 데이터를 HTTP 메세지의 Body에 담아서 전송합니다. HTTP 메세지의 Body는 길이의 제한없이 데이터를 전송할 수 있습니다. 
+
+k-culture
+k-pop k-beauty k-food, k-drama, k-film, k-fashion
+
+cd 
+#코로나 산업
+경제(금융), 의료, 패션, 요식, 세계(글로벌), 정책
+
+cd C:\elasticsearch-7.14.1-windows-x86_64\elasticsearch-7.14.1\bin
+elasticsearch.bat
+
+cd C:\kibana-7.14.1-windows-x86_64\kibana-7.14.1-windows-x86_64\bin
+kibana.bat
+
+cd C:\logstash-7.14.1-windows-x86_64\logstash-7.14.1\bin
+logstash.bat -f ../config/test.conf
+
+cd C:\logstash-7.14.1-windows-x86_64\logstash-7.14.1\config
+notepad test.conf
+
+#logstash.bat -f C:/logstash-7.14.1-windows-x86_64/logstash-7.14.1/config/test.conf
+
+#엘라스틱 서치 bin 디렉토리에서 노리 형태소분석기 설치 후 재시작
+/bin> elasticsearch-plugin install analysis-nori
+
