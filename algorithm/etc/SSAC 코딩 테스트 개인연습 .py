@@ -187,7 +187,13 @@ Family.lastname = '박'
 Family.lastname
 
 #거품정렬
+"""
+서로 인접한 두 원소를 검사하여 정렬하는 알고리즘
+인접한 2개의 레코드를 비교하여 크기가 순서대로 되어 있지 않으면 서로 교환한다.
+선택 정렬과 기본 개념이 유사하다.
+"""
 test =[5,4,3,2,1]
+test=[7,4,5,1,3]
 print(test)
 for i in range(len(test)):
     for j in range(len(test)-i-1):
