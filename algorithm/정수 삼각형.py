@@ -27,11 +27,31 @@ triangle                                                       result
 """
 
 """
-7                                                               2의0제곱 
-7+3                             7+8                             2의1제곱 
-7+3+8           7+3+1           7+8+1,          7+8+0           2의2제곱
-7+3+8+2 7+3+8+7 7+3+1+7 7+3+1+4 7+8+1+7 7+8+1+4 7+8+0+4 7+8+0+4 2의3제곱
-...(길어서 생략)                                                2의4제곱
+7                                                                
+7=0번째        #현재 탐색중인 리스트의 요소 인덱스 번째                                                     
+7+3                                                          7+8
+7=0번재        #현재 탐색중인 리스트의 요소 인덱스 번째      7=0번째         #현재 탐색중인 리스트의 요소 인덱스 번째      
+  3=0번째      #현재 탐색중인 리스트의 요소 인덱스 번째        8=1번째(0+1)  #현재 탐색중인 리스트의 요소 인덱스+1 번째                              
+7+3+8                  7+3+1                                 7+8+1,                             7+8+0                                 
+  3=0번째                3=0번째                               8=1번째                            8=1번째                         #현재 탐색중인 리스트의 요소 인덱스 번째
+    8=0번째(0)             1=1번째(0+1)                          1=1번째(1)                         0=2번째(1+1)                  #현재 탐색중인 리스트의 요소 인덱스+1 번째  
+7+3+8+2      ..+8+7          7+3+1+7        ..+1+4           7+8+1+7          ..+1+4            7+8+0+4         ..+0+4 
+    8=0번째(0)  8=0번째(0)       1=1번째(1)    1=1번째(1)        1=1번째(1)      1=1번째(1)        0=2번째(2)      0=2번째        #현재 탐색중인 리스트의 요소 인덱스 번째
+      2=0번째(0) 7=1번째(0+1)      7=1번째(1)    4=2번째(1+1)      7=1번째(1)      4=2번째(1+1)      4=2번째(2)      4=3번째(2+1) #현재 탐색중인 리스트의 요소 인덱스+1 번째
+
+...(길어서 생략)                                                
+
+#########################################################################
+triangle                                                       result                          
+[[7], [3, 8], [8, 1, 0], [2, 7, 4, 4], [4, 5, 2, 6, 5]]          30  
+
+7
+10                       15
+18    11                 16    15
+20 25 18 15              23 20 19 19
+
+total = [[7][10,15],[18,11,16,15]...]
+
 #이전 총합+마지막으로 더한수의 인덱스번째 수, 이전 총합+마지막으로 더한수의 인덱스+1번째 수
 #이하 반복
 
@@ -47,7 +67,7 @@ triangle                                                       result
 
 7을 기준으로 총값은 7
 score=[7,0,0,0,0,0,0,0,0,...]
-                                          ??????????????????????? 
+                                          
 7+3을 기준으로 이전 총 값은 score 기준 [현재 인덱스 (2의 0제곱)-1] 값 번째에 있는 값+triangle[현재 인덱스][배열 내 현재 인덱스]값   
                                                     [7,0,0,0,0,0,0,0,0,0...] + triangle[0][0] 
                                                                            7 + 3         
@@ -81,38 +101,50 @@ score=[7,10,15,18,11,16,15,0,0,...]
 
 [[7], [3, 8], [8, 1, 0], [2, 7, 4, 4], [4, 5, 2, 6, 5]]     
 7+3+8+2+4를 기준으로 이전 총                                                                         
-                                                                       
+
+total = [[7][10,15],[18,11,16,15]...]
+
+#참고 https://blog.sungmin.dev/98
 """
+triangle=[[7], [3, 8], [8, 1, 0], [2, 7, 4, 4], [4, 5, 2, 6, 5]]   
+
 def solution(triangle):
-    answer = 0
+    #각 층별 총합을 넣을 리스트 생성
+    triangle_total=[[] for i in range(len(triangle))] 
+    #맨 처음 총합인 7을 넣어두고 시작
+    triangle_total[0]=triangle[0]
+    for i in range(1, len(triangle_total)):
+        for j in range(len(triangle[i])):
+            if j==0:
+                triangle_total[i].append(triangle_total[i-1][j]+triangle[i][j])
+            elif i==j:
+                triangle_total[i].append(triangle_total[i-1][j-1]+triangle[i][j])
+            else:
+                triangle_total[i].append(max(triangle_total[i-1][j-1], triangle_total[i-1][j])+triangle[i][j])
+    answer = max(triangle_total[-1])    
     return answer
+
 ######이하는 시행착오#####################################################
-#총 비용값을 넣을 리스트 생성
-#score=[0]*((len(triangle)-1)**2)
-score=[0,0,0]
-triangle=[[7], [3, 8], [8, 1, 0], [2, 7, 4, 4], [4, 5, 2, 6, 5]] 
-for i,ii in enumerate(triangle):
-    if i == 0:
-        score[i]=ii[i]
-        continue
-    if i == 1:
-        score[i]=score[i-1]+triangle[i][i-1]
-        score[i+1]=score[i-1]+triangle[i][i]
-        continue
-    print(i, ii)
-    for j in range(len(ii)-1):
-        print('j,j+1', ii[j], ii[j+1])
-        print('score',score[(2*i)-1]+ii[j], score[(2*i)-1]+ii[j+1])
-        #score.append(score[(2*i)-1]+ii[j], score[(2*i)-1]+ii[j+1])
 
+#1차 제출 실패
+def solution(triangle):
+    triangle_total=[[] for i in range(len(triangle))] 
+    #맨 처음 총합인 7을 넣어두고 시작
+    triangle_total[0]=triangle[0]
+    for i in range(len(triangle_total)-1):
+        for j in range(len(triangle[i])):
+            #본인 인덱스 번째         #현재 total값        + 다음 triangle 요소 값(왼쪽값) 
+            triangle_total[i+1].append(triangle_total[i][j]+triangle[i+1][j])
+            #본인 인덱스 +1번째       #현재 total값        + 다음 triangle 요소 값(오른쪽값)
+            triangle_total[i+1].append(triangle_total[i][j]+triangle[i+1][j+1])
+    answer = max(triangle_total[-1])
+    return answer
 
-
-        if cnt==3:
-            break
-        else:
-            
-            cnt+=1
-        print()
-        #score.append(ii+triangle[i][j])
-        print(score[i-1],'+',triangle[i][i-j])
-        print(score[i-1],'+',triangle[i][i])
+##문제점 파악
+"""
+중간 3+7  8+7
+8+10 1+10 0+15
+     1+15 
+     이 부분이 4개가 되면 안됨
+18 1+15(더큰 수) 15 로 세개가 되어야 함.      
+"""
