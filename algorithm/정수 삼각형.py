@@ -52,8 +52,31 @@ triangle                                                       result
 
 total = [[7][10,15],[18,11,16,15]...]
 
-#이전 총합+마지막으로 더한수의 인덱스번째 수, 이전 총합+마지막으로 더한수의 인덱스+1번째 수
+#이전 총합+현재 인덱스번째 수
 #이하 반복
+
+#참고 https://blog.sungmin.dev/98
+"""
+triangle=[[7], [3, 8], [8, 1, 0], [2, 7, 4, 4], [4, 5, 2, 6, 5]]   
+
+def solution(triangle):
+    #각 층별 총합을 넣을 리스트 생성
+    triangle_total=[[] for i in range(len(triangle))] 
+    #맨 처음 총합인 7을 넣어두고 시작
+    triangle_total[0]=triangle[0]
+    for i in range(1, len(triangle_total)):
+        for j in range(len(triangle[i])):
+            if j==0:
+                triangle_total[i].append(triangle_total[i-1][j]+triangle[i][j])
+            elif i==j:
+                triangle_total[i].append(triangle_total[i-1][j-1]+triangle[i][j])
+            else:
+                triangle_total[i].append(max(triangle_total[i-1][j-1], triangle_total[i-1][j])+triangle[i][j])
+    answer = max(triangle_total[-1])    
+    return answer
+
+######이하는 시행착오#####################################################
+"""
 
 #예시
 7                                                               2의0제곱 
@@ -103,29 +126,7 @@ score=[7,10,15,18,11,16,15,0,0,...]
 7+3+8+2+4를 기준으로 이전 총                                                                         
 
 total = [[7][10,15],[18,11,16,15]...]
-
-#참고 https://blog.sungmin.dev/98
 """
-triangle=[[7], [3, 8], [8, 1, 0], [2, 7, 4, 4], [4, 5, 2, 6, 5]]   
-
-def solution(triangle):
-    #각 층별 총합을 넣을 리스트 생성
-    triangle_total=[[] for i in range(len(triangle))] 
-    #맨 처음 총합인 7을 넣어두고 시작
-    triangle_total[0]=triangle[0]
-    for i in range(1, len(triangle_total)):
-        for j in range(len(triangle[i])):
-            if j==0:
-                triangle_total[i].append(triangle_total[i-1][j]+triangle[i][j])
-            elif i==j:
-                triangle_total[i].append(triangle_total[i-1][j-1]+triangle[i][j])
-            else:
-                triangle_total[i].append(max(triangle_total[i-1][j-1], triangle_total[i-1][j])+triangle[i][j])
-    answer = max(triangle_total[-1])    
-    return answer
-
-######이하는 시행착오#####################################################
-
 #1차 제출 실패
 def solution(triangle):
     triangle_total=[[] for i in range(len(triangle))] 
