@@ -83,6 +83,47 @@ now_i = name[0]
 for i in range(1,len(name)):
   global now_i 
   print(min(abs(ord(now_i)-ord(name[i-1])), abs(ord('A')-ord(name[i])), abs(ord('Z')-ord(name[i]))))
+  
+
+###
+#A65 ~ Z90 [특수기호 6] a97 ~ z122
+# A  Z  a  z
+abcdefghijklmnopqrstuvwxyz
+
+"""
+"JEROEN"	56
+"JAN"	23 #74 65 90
+"JAZ" 11 // 9 1 1
+"""
+name = "JEROEN"
+str_i = 'A'*len(name)
+
+for i in str_i:
+
+
+
+
+
+
+
+
+
+
+past_i = name[0]
+answer=0
+if ord('Z')-ord(past_i)+1>= ord(past_i)-ord('A'):
+    answer+=ord(past_i)-ord('A')
+else:
+    answer+=ord('Z')-ord(past_i)+1
+
+#min(abs(ord('Z')-ord(now_i))+2, ord(now_i)-ord('A'))
+
+for i in range(1, len(name)):
+    answer+=min(ord('Z')-ord(name[i])+1, ord(name[i])-ord('A')+1, ord(name[i])-ord(past_i))
+    print(min(ord('Z')-ord(name[i])+1, ord(name[i])-ord('A')+1, abs(ord(name[i])-ord(past_i))))
+    past_i=name[i]
+    
+answer
 
 
 
