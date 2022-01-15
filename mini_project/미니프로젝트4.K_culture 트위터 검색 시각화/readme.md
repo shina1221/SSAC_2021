@@ -1,4 +1,4 @@
-프로젝트 명 : ELK(ElasticSearch, Logstash, Kibana)를 이용한 K-Culture 형태소 분석과 시각화 (K-pop과 K-movie를 중심으로)
+프로젝트 명 : ELK(ElasticSearch, Logstash, Kibana)를 이용한 K-Culture 형태소 분석과 시각화(K-pop과 K-movie를 중심으로)
 
 개발환경 O/S : windows64 bit
 
