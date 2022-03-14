@@ -19,3 +19,23 @@ When ordered alphabetically, the CITY names are listed as ABC, DEF, PQRS, and WX
 
 Note
 You can write two separate queries to get the desired output. It need not be a single query.
+
+#풀이
+-복수의 답변은 복수의 쿼리문으로 뽑을수도 있다.
+
+1. 문자열의 길이 출력 = LENGTH() 
+2. 문자열의 길이에 따른 정렬, 문자열에 대한 정렬은 ORDER BY 내에서 한번에 처리
+3. LIMIT로 상위 1개만 추출
+
+SELECT CITY, LENGHT(CITY)
+FROM STATION
+ORDER BY LENGHT(CITY) AS DESC, CITY ASC
+LIMIT 1;
+
+SELECT CITY, LENGHT(CITY)
+FROM STATION
+ORDER BY LENGHT(CITY) AS ASC, CITY ASC
+LIMIT 1;
+
+
+
