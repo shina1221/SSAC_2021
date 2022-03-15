@@ -18,4 +18,16 @@ Julia
 Belvet
 Explanation
 
-Only Ashley, Julia, and Belvet have Marks > . If you look at the last three characters of each of their names, there are no duplicates and 'ley' < 'lia' < 'vet'.
+Only Ashley, Julia, and Belvet have Marks > . If you look at the last three characters of each of their names, there are no duplicates and 'ley' < 'lia' < 'vet'.  
+
+#풀이  
+-점수가 75를 넘는 학생의 이름 출력  
+-단 이름의 마지막 세글자를 기준으로 정렬  
+-세글자가 같을 경우는 2차적으로 ID기준으로 정렬  
+  
+-RIGHT(column, n):오른쪽에서 n개의 문자열을 가져옴  
+
+SELECT Name  
+FROM STUDENTS  
+WHERE Marks>75   
+ORDER BY RIGHT(Name, 3), ID;  
