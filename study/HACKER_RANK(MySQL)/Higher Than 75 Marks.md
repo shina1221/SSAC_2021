@@ -11,12 +11,12 @@ The Name column only contains uppercase (A-Z) and lowercase (a-z) letters.
 Sample Input  
 ![fig2](https://s3.amazonaws.com/hr-challenge-images/12896/1443815209-cf4b260993-2.png)
 
-Sample Output
+Sample Output  
 
-Ashley
-Julia
-Belvet
-Explanation
+Ashley  
+Julia  
+Belvet  
+Explanation  
 
 Only Ashley, Julia, and Belvet have Marks > . If you look at the last three characters of each of their names, there are no duplicates and 'ley' < 'lia' < 'vet'.  
 
