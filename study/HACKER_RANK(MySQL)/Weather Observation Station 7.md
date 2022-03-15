@@ -11,6 +11,7 @@ where LAT_N is the northern latitude and LONG_W is the western longitude.
 #풀이  
 -'a%':a로 시작하는  
 -'%a':a로 끝나는  
+
 select distinct city  
 from station  
 where city like '%a' or city like '%e' or city like '%i' or city like '%o' or city like '%u';  
