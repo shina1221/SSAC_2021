@@ -6,9 +6,9 @@ The STUDENTS table is described as follows:
 
 ![fig1](https://s3.amazonaws.com/hr-challenge-images/12896/1443815243-94b941f556-1.png)
 
-The Name column only contains uppercase (A-Z) and lowercase (a-z) letters.
+The Name column only contains uppercase (A-Z) and lowercase (a-z) letters.  
 
-Sample Input
+Sample Input  
 ![fig2](https://s3.amazonaws.com/hr-challenge-images/12896/1443815209-cf4b260993-2.png)
 
 Sample Output
