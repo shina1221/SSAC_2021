@@ -34,7 +34,7 @@ or city like '%u'
 -각 정규표현식의 시작^과 끝$은 공존할 수 없음  
 SELECT  DISTINCT CITY  
 FROM STATION  
-WHERE CITY REGEXP '^[AEIOU]' AND CITY REGEXP '^[AEIOU]$'  
+WHERE CITY REGEXP '^[AEIOU]' AND CITY REGEXP '[AEIOU]$'  
 
 
 [정규표현식 참조](https://junyoung-developer.tistory.com/34?category=929724)
