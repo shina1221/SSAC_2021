@@ -17,7 +17,7 @@ from station
 where city like '%a' or city like '%e' or city like '%i' or city like '%o' or city like '%u';  
 
 
-#사이트에서 정규표현식 답을 안받음
+#사이트에서 정규표현식 답을 안받음  
 SELECT DISTINCT CITY  
 FROM STATION  
 WHERE CITY REGEXP '[AEIOU]$';  
