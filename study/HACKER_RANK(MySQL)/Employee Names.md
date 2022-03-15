@@ -26,3 +26,6 @@ Michael
 Patrick  
 Rose  
 Todd  
+
+#풀이  
+SELECT name FROM Employee ORDER BY name;
