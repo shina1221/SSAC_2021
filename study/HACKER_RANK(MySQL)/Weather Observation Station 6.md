@@ -8,14 +8,14 @@ The STATION table is described as follows:
 
 where LAT_N is the northern latitude and LONG_W is the western longitude.
 
-#풀이
+#풀이  
+- 여러개의 중복조건은 각각 표시 >> ex) CITY LIKE 'A%' OR CITY LIKE '%B' ....  
 
-- 여러개의 중복조건은 각각 표시 >> ex) CITY LIKE 'A%' OR CITY LIKE '%B' ....
-SELECT DISTINCT CITY
-FROM STATION
-WHERE (CITY LIKE 'A%' OR CITY LIKE 'E%' OR CITY LIKE 'I%' OR CITY LIKE 'O%' OR CITY LIKE 'U%');
+SELECT DISTINCT CITY  
+FROM STATION  
+WHERE (CITY LIKE 'A%' OR CITY LIKE 'E%' OR CITY LIKE 'I%' OR CITY LIKE 'O%' OR CITY LIKE 'U%');  
 
-#정규표현식
-SELECT DISTINCT CITY
-FROM STATION
-WHERE REGEXP_LIKE(CITY, '^A|^E|^I|^O|^U');
+#정규표현식  
+SELECT DISTINCT CITY  
+FROM STATION  
+WHERE REGEXP_LIKE(CITY, '^A|^E|^I|^O|^U');  
