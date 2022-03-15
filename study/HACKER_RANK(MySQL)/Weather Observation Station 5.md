@@ -20,7 +20,7 @@ When ordered alphabetically, the CITY names are listed as ABC, DEF, PQRS, and WX
 Note
 You can write two separate queries to get the desired output. It need not be a single query.
 
-#풀이
+#풀이  
 -복수의 답변은 복수의 쿼리문으로 뽑을수도 있다.
 
 1. 문자열의 길이 출력 = LENGTH() 
