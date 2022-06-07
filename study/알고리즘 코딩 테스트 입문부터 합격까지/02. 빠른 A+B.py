@@ -45,3 +45,9 @@ import sys
 
 for _ in range(int(sys.stdin.readline())):
     print(sum(list(map(int, sys.stdin.readline().rstrip().split()))))
+
+"""
+오버플로우
+자료형이 담을 수 있는 범위를 초과한 값을 넣을 때 발생하는 문제
+python은 고려하지 않아도 됨
+"""
