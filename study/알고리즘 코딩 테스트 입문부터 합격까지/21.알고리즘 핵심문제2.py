@@ -6,6 +6,8 @@
 #한번 넣거나 한번빼거나 해서 O(1)
 #근데 n개만큼 하니까 O(N)
 
+#stack
+
 import sys
 
 input = sys.stdin.readline
