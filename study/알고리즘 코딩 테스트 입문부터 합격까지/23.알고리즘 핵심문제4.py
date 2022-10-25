@@ -31,7 +31,7 @@ for i in range(N):
 print(f'houses: {houses}')
 print(f'chickens: {chickens}')
 
-#정확히 2N-2보다 집 거리는 크지 않음 ##?????
+#정확히 2N-2보다 집 거리는 크지 않음 
 ans = 2*N * len(houses)
 
 #거리 구하기 함수
@@ -44,8 +44,7 @@ def get_dist(a,b):
 for combi in combinations(chickens, M):
     tot = 0     #도시의 치킨거리
     for house in houses:
-        for chicken in combi:
-            tot += min(get_dist(house, chicken) for chicken in combi)
+        tot += min(get_dist(house, chicken) for chicken in combi)
     
     print(f'combi: {combi}', 'tot: {tot}')
     ans = min(ans, tot)
