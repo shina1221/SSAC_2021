@@ -120,3 +120,4 @@ while True:
         print(answer)
         break
     r_N=[r_N[n] if r_N[n] in [A,B] else r_N[n+1] for n in range(0,len(r_N),2)]
+
