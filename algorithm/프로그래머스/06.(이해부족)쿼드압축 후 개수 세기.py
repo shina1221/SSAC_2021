@@ -22,6 +22,7 @@ def solution(arr):
         for i in range(x, x + n):
             for j in range(y, y + n):
                 if arr[i][j] != first:
+                    print(i,j,n)
                     n //= 2
                     quard(x, y, n)
                     quard(x, y + n, n)
